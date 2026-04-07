@@ -21,15 +21,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     if client.supports_method("textDocument/formatting") then
-      -- todo: add filter to exclude file from getting auto formatted on save
-      -- since not all projects want autoformated code
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = args.buf,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-        end,
-      });
-
       vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
     end
   end,
@@ -48,17 +39,17 @@ vim.keymap.set("n", "<leader>sg", require "config.plugins.telescope.multigrep".l
 vim.keymap.set("n", "<M-j>", "<cmd>cnext<CR>")
 vim.keymap.set("n", "<M-k>", "<cmd>cprev<CR>")
 
--- cycle tabs
+-- tabs
 vim.keymap.set("n", "<M-n>", "<cmd>tabnext<CR>")
 vim.keymap.set("n", "<M-p>", "<cmd>tabprev<CR>")
+vim.keymap.set("n", "<M-q>", "<cmd>quit<CR>")
 
 
-vim.keymap.set("n", "<leader>eo", "<cmd>Oil<CR>")
+-- disable some keybindings for training
+vim.keymap.set("n", "<C-b>", "<Nop>")
+vim.keymap.set("n", "<C-f>", "<Nop>")
 
--- open terminal
-vim.keymap.set("n", "<leader>t", function()
-  vim.cmd.vnew()
-  vim.cmd.term()
-  vim.cmd.wincmd("J")
-  vim.api.nvim_win_set_height(0, 15)
-end)
+
+-- diagnostics
+vim.keymap.set("n", "<leader>dl", vim.diagnostic.setqflist)
+vim.keymap.set("n", "<leader>dk", vim.diagnostic.open_float)

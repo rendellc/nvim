@@ -7,8 +7,12 @@ return {
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
     },
     config = function()
-      print("telescope config")
       require "telescope".setup {
+        defaults = {
+          file_ignore_patterns = {
+            "build/",
+          },
+        },
         pickers = {
           find_files = {
             theme = "ivy",
@@ -18,8 +22,6 @@ return {
           fzf = {},
         },
       }
-
-      require "telescope".load_extension "fzf"
     end,
   },
 }
